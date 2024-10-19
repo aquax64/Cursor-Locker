@@ -3,7 +3,7 @@
 #include <string>
 
 HWND tarkov = NULL;
-char *f = "EscapeFromTarkov"; // name of window
+std::string f; // name of window
 char *title;
 
 // Callback function to enumerate all windows and print their titles
@@ -11,8 +11,8 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
     char windowTitle[256];
     if (GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle))) {
         if (IsWindowVisible(hwnd)) {
-            std::cout << "Window: " << windowTitle << std::endl;
-            if (strcmp(f, windowTitle) == 0) {
+            // std::cout << "Window: " << windowTitle << std::endl;
+            if (strcmp(f.c_str(), windowTitle) == 0) {
                 std::cout << "Window Found!" << std::endl;
                 title = windowTitle;
                 tarkov = hwnd;
@@ -59,6 +59,11 @@ void ReleaseCursor() {
 }
 
 int main() {
+    std::cout << "Enter name of window to be locked: ";
+    std::getline(std::cin, f);
+
+    std::cout << std::endl;
+
     HWND hwnd = GetWindowByTitle();
     // hwnd = tarkov;
 
@@ -82,7 +87,7 @@ int main() {
             ReleaseCursor();
         }
 
-        // Sleep(10);  // Check every 100 milliseconds
+        Sleep(10);  // Check every 100 milliseconds
 
         if (!IsWindow(hwnd)) {
             std::cout << "Window closed!" << std::endl;
