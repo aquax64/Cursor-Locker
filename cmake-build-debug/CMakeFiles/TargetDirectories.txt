@@ -1,0 +1,3 @@
+C:/Users/mraqu/CLionProjects/Cursor Locker/cmake-build-debug/CMakeFiles/Cursor_Locker.dir
+C:/Users/mraqu/CLionProjects/Cursor Locker/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/mraqu/CLionProjects/Cursor Locker/cmake-build-debug/CMakeFiles/rebuild_cache.dir
