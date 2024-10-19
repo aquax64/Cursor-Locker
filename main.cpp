@@ -32,18 +32,20 @@ HWND GetWindowByTitle() {
 void LockCursorToWindow(HWND hwnd) {
     if (hwnd != NULL) {
         RECT rect;
+        RECT local;
         RECT pos;
         GetCursorPos(LPPOINT(&pos));
         GetWindowRect(hwnd, &rect);
+        GetClientRect(hwnd, &local);
         if (IsWindowVisible(hwnd)) {
-            std:: cout << "Cursor pos: " << pos.left << " " << pos.top << " " << pos.right << " " << pos.bottom << std::endl; // Works
-            if (pos.left > rect.right) { // Under certain circumstances you would clip the right-left instead just left-right and top and bottom as well if they had other moniters
-                SetCursorPos(rect.right / 2, rect.bottom / 2);
-            } /*else if (rect.bottom < pos.bottom || rect.top < pos.top || rect.left < pos.left || rect.right < pos.right) {
-                SetCursorPos(rect.bottom / 2, rect.top / 2);
-            }*/
+            // std:: cout << "Cursor pos: " << pos.left << ", " << pos.top << std::endl; // Works
+            if (pos.left > rect.right || pos.left < rect.left || pos.top > rect.bottom || pos.top < rect.top) { // Under certain circumstances you would clip the right-left instead just left-right and top and bottom as well if they had other moniters
+                SetCursorPos(rect.right - local.right / 2, rect.bottom - local.bottom / 2);
+            }
 
-            std::cout << "Clipping cursor to: " << rect.top << "," << rect.bottom << "," << rect.left  << "," << rect.right << std::endl;
+            // std::cout << "Local: " << local.top << "," << local.bottom << "," << local.left  << "," << local.right << std::endl;
+
+            // std::cout << "Clipping cursor to: " << rect.top << "," << rect.bottom << "," << rect.left  << "," << rect.right << std::endl;
 
         } else {
             std::cout << "HWND is NULL, can't lock cursor!" << std::endl;
