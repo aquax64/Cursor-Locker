@@ -1,5 +1,8 @@
 Manual Cursor Lock
 
+Download link:
+https://github.com/aquax64/Cursor-Locker/releases/tag/v1.0.0
+
 Directions:
 Step 1: Run program
 
