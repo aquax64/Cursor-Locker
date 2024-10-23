@@ -2,9 +2,9 @@
 #include <iostream>
 #include <string>
 
-HWND tarkov = NULL;
+HWND tarkov = NULL; // handle for window
 std::string f; // name of window
-char *title;
+char *title; // name of window found
 
 // Callback function to enumerate all windows and print their titles
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
@@ -39,13 +39,13 @@ void LockCursorToWindow(HWND hwnd) {
         GetClientRect(hwnd, &local);
         if (IsWindowVisible(hwnd)) {
             // std:: cout << "Cursor pos: " << pos.left << ", " << pos.top << std::endl; // Works
-            if (pos.left > rect.right || pos.left < rect.left || pos.top > rect.bottom || pos.top < rect.top) { // Under certain circumstances you would clip the right-left instead just left-right and top and bottom as well if they had other moniters
-                SetCursorPos(rect.right - local.right / 2, rect.bottom - local.bottom / 2);
+            if (pos.left > rect.right || pos.left < rect.left || pos.top > rect.bottom || pos.top < rect.top) { // Detect if the cursor is beyond the rectangular border of the window
+                SetCursorPos(rect.right - local.right / 2, rect.bottom - local.bottom / 2); // Set cursor position in the middle of the window
             }
 
-            // std::cout << "Local: " << local.top << "," << local.bottom << "," << local.left  << "," << local.right << std::endl;
+            // std::cout << "Local: " << local.top << "," << local.bottom << "," << local.left  << "," << local.right << std::endl; // For debugging
 
-            // std::cout << "Clipping cursor to: " << rect.top << "," << rect.bottom << "," << rect.left  << "," << rect.right << std::endl;
+            // std::cout << "Clipping cursor to: " << rect.top << "," << rect.bottom << "," << rect.left  << "," << rect.right << std::endl; // For debugging
 
         } else {
             std::cout << "HWND is NULL, can't lock cursor!" << std::endl;
@@ -65,7 +65,6 @@ int main() {
     std::cout << std::endl;
 
     HWND hwnd = GetWindowByTitle();
-    // hwnd = tarkov;
 
     if (hwnd == NULL) {
         std::cout << "Window not found!" << std::endl;
@@ -87,7 +86,7 @@ int main() {
             ReleaseCursor();
         }
 
-        Sleep(10);  // Check every 100 milliseconds
+        Sleep(10);  // Check every 10 milliseconds
 
         if (!IsWindow(hwnd)) {
             std::cout << "Window closed!" << std::endl;
